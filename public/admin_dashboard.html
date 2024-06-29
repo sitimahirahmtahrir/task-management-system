@@ -5,19 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Task Management System</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/admin.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
         <h1>Admin Dashboard</h1>
         <nav>
             <ul>
-                <li><a href="task_management.html">Task Management</a></li>
-                <li><a href="user_management.html">User Management</a></li>
+                <li><a href="#" id="taskManagementLink">Task Management</a></li>
+                <li><a href="#" id="userManagementLink">User Management</a></li>
             </ul>
         </nav>
-        <div class="dashboard-content">
-            <h2>Welcome, Admin!</h2>
-            <p>Use the navigation above to manage tasks and users.</p>
+        <div id="taskManagementSection" class="dashboard-content">
+            <h2>Task Management</h2>
+            <button id="createTaskButton">Create Task</button>
+            <div id="tasksList">
+                <!-- Task list will be populated here -->
+            </div>
+        </div>
+        <div id="userManagementSection" class="dashboard-content" style="display: none;">
+            <h2>User Management</h2>
+            <button id="createUserButton">Create User</button>
+            <div id="usersList">
+                <!-- User list will be populated here -->
+            </div>
         </div>
     </div>
 </body>

@@ -7,7 +7,7 @@ body {
 
 .container, .login-container, .dashboard-container {
     width: 90%;
-    max-width: 600px;
+    max-width: 1000px;
     margin: 50px auto;
     padding: 20px;
     background-color: #fff;
@@ -16,50 +16,6 @@ body {
 }
 
 h1 {
-    margin-bottom: 20px;
-}
-
-p {
-    margin-bottom: 20px;
-}
-
-a.btn, button.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-a.btn:hover, button.btn:hover {
-    background-color: #0056b3;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-form label {
-    margin: 10px 0 5px;
-}
-
-form input {
-    padding: 10px;
-    width: 80%;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-form button.btn {
-    width: 50%;
-}
-
-nav {
     margin-bottom: 20px;
 }
 
@@ -80,4 +36,32 @@ nav ul li a {
 
 nav ul li a:hover {
     text-decoration: underline;
+}
+
+.dashboard-content {
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#tasksList, #usersList {
+    text-align: left;
+    margin-top: 20px;
+}
+
+#tasksList div, #usersList div {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
 }

@@ -1,14 +1,17 @@
-CREATE DATABASE task_management;
+-- Create the database
+CREATE DATABASE IF NOT EXISTS task_management;
 USE task_management;
 
-CREATE TABLE users (
+-- Create users table
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'staff') NOT NULL
 );
 
-CREATE TABLE tasks (
+-- Create tasks table
+CREATE TABLE IF NOT EXISTS tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100),
     description TEXT,
