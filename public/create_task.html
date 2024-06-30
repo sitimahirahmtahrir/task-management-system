@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task - Task Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/create_task.js"></script>
+</head>
+<body>
+    <!-- Include the header -->
+    <div class="header">
+        <h1>TASK MANAGEMENT SYSTEM</h1>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="menu" id="menu">
+            <a href="admin_dashboard.html">Dashboard</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <h1>Create Task</h1>
+        <form id="createTaskForm">
+            <label for="taskTitle">Task Title</label>
+            <input type="text" id="taskTitle" name="taskTitle" required>
+            
+            <label for="taskDescription">Task Description</label>
+            <textarea id="taskDescription" name="taskDescription" required></textarea>
+            
+            <label for="dueDate">Due Date</label>
+            <input type="date" id="dueDate" name="dueDate" required>
+            
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+                <option value="pending">Pending</option>
+                <option value="in-progress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+            
+            <label for="assignedTo">Assign to</label>
+            <select id="assignedTo" name="assignedTo" required>
+                <!-- Options will be populated dynamically -->
+            </select>
+            
+            <button type="submit" class="btn">Create Task</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            window.location.href = 'login.html';
+        }
+
+        // Fetch users and populate the user list for task assignment
+        function fetchUsers() {
+            fetch('api/users.php')
+                .then(response => response.json())
+                .then(data => {
+                    const assignedToSelect = document.getElementById('assignedTo');
+                    assignedToSelect.innerHTML = '';
+                    data.users.forEach(user => {
+                        const userOption = document.createElement('option');
+                        userOption.value = user.id;
+                        userOption.text = user.username;
+                        assignedToSelect.appendChild(userOption);
+                    });
+                })
+                .catch(error => console.error('Error fetching users:', error));
+        }
+
+        document.getElementById('createTaskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const taskTitle = document.getElementById('taskTitle').value;
+            const taskDescription = document.getElementById('taskDescription').value;
+            const dueDate = document.getElementById('dueDate').value;
+            const status = document.getElementById('status').value;
+            const assignedTo = document.getElementById('assignedTo').value;
+
+            fetch('api/create_task.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title: taskTitle, description: taskDescription, due_date: dueDate, status: status, assigned_to: assignedTo })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Task created successfully.');
+                    window.location.href = 'admin_dashboard.html';
+                } else {
+                    alert('Error creating task: ' + data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Initial fetch to populate users
+        fetchUsers();
+    </script>
+</body>
+</html>

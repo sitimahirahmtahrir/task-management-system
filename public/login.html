@@ -8,18 +8,43 @@
     <script defer src="js/login.js"></script>
 </head>
 <body>
+    <!-- Include the header -->
+    <div class="header">
+        <h1>TASK MANAGEMENT SYSTEM</h1>
+    </div>
+
     <div class="login-container">
         <h1>Login</h1>
         <form id="loginForm">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
-
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
-
             <button type="submit" class="btn">Login</button>
         </form>
         <div id="error-message" style="color: red; display: none;">Invalid username or password</div>
+        <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+        <a href="#" id="registerLink">Register New User</a>
+    </div>
+
+    <div class="forgot-password-container" style="display: none;">
+        <h1>Forgot Password</h1>
+        <form id="forgotPasswordForm">
+            <label for="forgotEmail">Email Address</label>
+            <input type="email" id="forgotEmail" name="email" required>
+            <button type="submit" class="btn">Send Default Password</button>
+        </form>
+        <a href="#" id="backToLoginFromForgot">Back to Login</a>
+    </div>
+
+    <div class="register-container" style="display: none;">
+        <h1>Register New User</h1>
+        <form id="registerForm">
+            <label for="registerEmail">Email Address</label>
+            <input type="email" id="registerEmail" name="email" required>
+            <button type="submit" class="btn">Request Registration</button>
+        </form>
+        <a href="#" id="backToLoginFromRegister">Back to Login</a>
     </div>
 </body>
 </html>

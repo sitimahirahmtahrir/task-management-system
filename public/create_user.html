@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User - Task Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/create_user.js"></script>
+</head>
+<body>
+    <!-- Include the header -->
+    <div class="header">
+        <h1>TASK MANAGEMENT SYSTEM</h1>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="menu" id="menu">
+            <a href="admin_dashboard.html">Dashboard</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <h1>Create User</h1>
+        <form id="createUserForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+            </select>
+            
+            <button type="submit" class="btn">Create User</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

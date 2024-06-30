@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User - Task Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/edit_user.js"></script>
+</head>
+<body>
+    <!-- Include the header -->
+    <div class="header">
+        <h1>TASK MANAGEMENT SYSTEM</h1>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="menu" id="menu">
+            <a href="admin_dashboard.html">Dashboard</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <h1>Edit User</h1>
+        <form id="editUserForm">
+            <input type="hidden" id="userId" name="userId">
+            
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+            </select>
+            
+            <button type="submit" class="btn">Update User</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            window.location.href = 'login.html';
+        }
+
+        function getUserId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('user_id');
+        }
+
+        // Fetch user details and populate the form
+        function fetchUserDetails(userId) {
+            fetch(`api/get_user.php?id=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('userId').value = data.user.id;
+                        document.getElementById('username').value = data.user.username;
+                        document.getElementById('email').value = data.user.email;
+                        document.getElementById('role').value = data.user.role;
+                    } else {
+                        alert('Error fetching user details: ' + data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        document.getElementById('editUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const userId = document.getElementById('userId').value;
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const role = document.getElementById('role').value;
+
+            fetch('api/update_user.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: userId, username: username, email: email, role: role })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('User updated successfully.');
+                    window.location.href = 'admin_dashboard.html';
+                } else {
+                    alert('Error updating user: ' + data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        const userId = getUserId();
+        fetchUserDetails(userId);
+    </script>
+</body>
+</html>

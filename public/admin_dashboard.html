@@ -8,28 +8,112 @@
     <script defer src="js/admin.js"></script>
 </head>
 <body>
+    <!-- Include the header -->
+    <div class="header">
+        <h1>TASK MANAGEMENT SYSTEM</h1>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="menu" id="menu">
+            <a href="create_task.html">Create Task</a>
+            <a href="#" id="userManagementLink">User Management</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
     <div class="dashboard-container">
         <h1>Admin Dashboard</h1>
-        <nav>
-            <ul>
-                <li><a href="#" id="taskManagementLink">Task Management</a></li>
-                <li><a href="#" id="userManagementLink">User Management</a></li>
-            </ul>
-        </nav>
         <div id="taskManagementSection" class="dashboard-content">
             <h2>Task Management</h2>
-            <button id="createTaskButton">Create Task</button>
-            <div id="tasksList">
-                <!-- Task list will be populated here -->
-            </div>
+            <table id="tasksTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Due Date</th>
+                        <th>Assigned To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Task rows will be populated here -->
+                </tbody>
+            </table>
         </div>
         <div id="userManagementSection" class="dashboard-content" style="display: none;">
             <h2>User Management</h2>
-            <button id="createUserButton">Create User</button>
+            <a href="create_user.html" class="btn">Create User</a>
             <div id="usersList">
                 <!-- User list will be populated here -->
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            window.location.href = 'login.html';
+        }
+
+        // Fetch tasks and populate the task table
+        function fetchTasks() {
+            fetch('api/tasks.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tasksTableBody = document.getElementById('tasksTable').getElementsByTagName('tbody')[0];
+                    tasksTableBody.innerHTML = '';
+                    data.tasks.forEach(task => {
+                        const row = tasksTableBody.insertRow();
+                        row.insertCell(0).innerText = task.title;
+                        row.insertCell(1).innerText = task.status;
+                        row.insertCell(2).innerText = task.due_date;
+                        row.insertCell(3).innerText = task.assigned_to;
+                    });
+                })
+                .catch(error => console.error('Error fetching tasks:', error));
+        }
+
+        // Fetch users and populate the user list
+        function fetchUsers() {
+            fetch('api/users.php')
+                .then(response => response.json())
+                .then(data => {
+                    const usersList = document.getElementById('usersList');
+                    usersList.innerHTML = '';
+                    data.users.forEach(user => {
+                        const userItem = document.createElement('div');
+                        userItem.innerHTML = `
+                            <strong>${user.username}</strong>
+                            <p>${user.email}</p>
+                            <p>Role: ${user.role}</p>
+                        `;
+                        usersList.appendChild(userItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching users:', error));
+        }
+
+        document.getElementById('userManagementLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('taskManagementSection').style.display = 'none';
+            document.getElementById('userManagementSection').style.display = 'block';
+            fetchUsers();
+        });
+
+        // Initial fetch to populate tasks
+        fetchTasks();
+
+        // Refresh the task list every 30 seconds for real-time updates
+        setInterval(fetchTasks, 30000);
+    </script>
 </body>
 </html>

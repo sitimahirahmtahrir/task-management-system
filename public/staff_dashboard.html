@@ -5,20 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Dashboard - Task Management System</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/staff.js"></script>
 </head>
 <body>
-    <div class="dashboard-container">
-        <h1>Staff Dashboard</h1>
-        <nav>
-            <ul>
-                <li><a href="task_dashboard.html">My Tasks</a></li>
-                <li><a href="profile_management.html">Profile Management</a></li>
-            </ul>
-        </nav>
-        <div class="dashboard-content">
-            <h2>Welcome, Staff Member!</h2>
-            <p>Use the navigation above to view and manage your tasks.</p>
+    <!-- Include the header -->
+    <div class="header">
+        <h1>TASK MANAGEMENT SYSTEM</h1>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="menu" id="menu">
+            <a href="#" id="taskDashboardLink">Task Dashboard</a>
+            <a href="#" id="profileManagementLink">Profile Management</a>
+            <a href="#" onclick="logout()">Logout</a>
         </div>
     </div>
+
+    <div class="dashboard-container">
+        <h1>Staff Dashboard</h1>
+        <div id="taskDashboardSection" class="dashboard-content">
+            <h2>Task Dashboard</h2>
+            <div id="tasksList">
+                <!-- Task list will be populated here -->
+            </div>
+        </div>
+        <div id="profileManagementSection" class="dashboard-content" style="display: none;">
+            <h2>Profile Management</h2>
+            <form id="profileForm">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">New Password</label>
+                <input type="password" id="password" name="password">
+                <button type="submit" class="btn">Update Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            // Add your logout logic here, e.g., clearing session, redirecting to login page, etc.
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>
